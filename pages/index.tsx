@@ -14,19 +14,29 @@ import Image from "next/image";
 import { useMemo, useState } from "react";
 import styles from "../styles/Home.module.css";
 import { parseIneligibility } from "../utils/parseIneligibility";
+import { TOKEN_DROP_ADDRESS } from "../const/yourDetails";
+
+const startTime = new Date();
+const endTime = new Date(Date.now() + 60 * 60 * 24 * 20000);
+const payload = {
+  quantity: 8543, // The quantity of tokens to be minted
+  to: useAddress, // Who will receive the tokens
+  price: 0, // the price to pay for minting those tokens
+  
+  mintStartTime: startTime, // can mint anytime from now
+  mintEndTime: endTime, // to 48hr from now,
+  
+};
 
 const Home = () => {
   const tokenAddress = "0x93107eD260c58d5d1c04398f23fC69FDa0D78Bc3";
-  const { contract } = useContract(tokenAddress, "token-drop");
+  const { contract } = useContract(tokenAddress, TOKEN_DROP_ADDRESS);
   const address = useAddress();
   const [quantity, setQuantity] = useState(1);
   const { data: contractMetadata } = useContractMetadata(contract);
-
-  const claimConditions = useClaimConditions(contract);
-  const activeClaimCondition = useActiveClaimConditionForWallet(
-    contract,
-    address
-  );
+  const signedPayload = await contract.erc20.signature.generate(payload);
+  const tx = contract.erc20.signature.mint(signedPayload);
+  const activeClaimCondition = useActiveClaimConditionForWallet(contract, address);
   const claimerProofs = useClaimerProofs(contract, address || "");
   const claimIneligibilityReasons = useClaimIneligibilityReasons(contract, {
     quantity,
@@ -36,11 +46,7 @@ const Home = () => {
   const claimedSupply = useTokenSupply(contract);
 
   const totalAvailableSupply = useMemo(() => {
-    try {
-      return BigNumber.from(activeClaimCondition.data?.availableSupply || 0);
-    } catch {
-      return BigNumber.from(1_000_000_000);
-    }
+    return BigNumber.from(activeClaimCondition.data?.availableSupply || 1_000_000_000);
   }, [activeClaimCondition.data?.availableSupply]);
 
   const numberClaimed = useMemo(() => {
@@ -173,7 +179,7 @@ const Home = () => {
   );
   const buttonText = useMemo(() => {
     if (isSoldOut) {
-      return "Sold Out";
+      return "Not Eligible - Trade on a DEX";
     }
 
     if (canClaim) {
@@ -181,9 +187,9 @@ const Home = () => {
         activeClaimCondition.data?.currencyMetadata.value || 0
       );
       if (pricePerToken.eq(0)) {
-        return "Mint (Free)";
+        return "Claim";
       }
-      return `Mint (${priceToMint})`;
+      return `Claim (${priceToMint})`;
     }
     if (claimIneligibilityReasons.data?.length) {
       return parseIneligibility(claimIneligibilityReasons.data, quantity);
@@ -205,25 +211,22 @@ const Home = () => {
 
   return (
     <div className={styles.container}>
-      {(claimConditions.data &&
-        claimConditions.data.length > 0 &&
-        activeClaimCondition.isError) ||
-        (activeClaimCondition.data &&
-          activeClaimCondition.data.startTime > new Date() && (
-            <p>Claims starting soon. Please check back later.</p>
-          ))}
+      {/* Check for claim start time */}
+      {(activeClaimCondition.isError || (activeClaimCondition.data && activeClaimCondition.data.startTime > new Date())) && (
+        <p>Claims starting soon. Please check back later.</p>     
+      )}
 
-      {claimConditions.data?.length === 0 ||
-        (claimConditions.data?.every((cc) => cc.maxClaimableSupply === "0") && (
-          <p>
-            This drop is not ready to be claimed yet. (No claim condition set)
-          </p>
-        ))}
+      {/* Check if claim conditions are not set */}
+      {claimConditions.data?.length === 0 || claimConditions.data?.every(cc => cc.maxClaimableSupply === "0") && (
+        <p>This drop is not ready to be claimed yet. (No claim condition set)</p>
+      )}
 
-      {isLoading ? (
+        {/* Loading or display */}
+        {isLoading ? (
         <p>Loading...</p>
       ) : (
         <>
+          {/* Display metadata */}
           {contractMetadata?.image && (
             <Image
               src={contractMetadata?.image}
@@ -241,6 +244,7 @@ const Home = () => {
           </p>
         </>
       )}
+
 
       <hr className={styles.divider} />
 

@@ -12,7 +12,8 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ThirdwebProvider 
     clientId={process.env.NEXT_PUBLIC_TEMPLATE_CLIENT_ID}
-    activeChain={activeChain}>
+    activeChain={activeChain}
+    authConfig={{ domain: "shibase8453.github.io/pup-drop", authUrl: "/api/auth" }}>
       <Head>
         <title>ShiBase Token Airdrop</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
