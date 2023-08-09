@@ -173,7 +173,7 @@ const Home = () => {
   );
   const buttonText = useMemo(() => {
     if (isSoldOut) {
-      return "Sold Out";
+      return "All Claimed! Trade SHI on a Base Dex";
     }
 
     if (canClaim) {
@@ -181,7 +181,7 @@ const Home = () => {
         activeClaimCondition.data?.currencyMetadata.value || 0
       );
       if (pricePerToken.eq(0)) {
-        return "Mint (Free)";
+        return "CLAIM";
       }
       return `Mint (${priceToMint})`;
     }
@@ -210,7 +210,7 @@ const Home = () => {
         activeClaimCondition.isError) ||
         (activeClaimCondition.data &&
           activeClaimCondition.data.startTime > new Date() && (
-            <p>Claims starting soon. Please check back later.</p>
+            <p>Claims starting soon. Please check back later or head to a DEX on Base.</p>
           ))}
 
       {claimConditions.data?.length === 0 ||
@@ -236,7 +236,7 @@ const Home = () => {
 
           <h2 className={styles.title}>Claim Tokens</h2>
           <p className={styles.explain}>
-            Claim your ShiBase tokens if Eligible!{" "}
+            Claim your ShiBase tokens if Eligible otherwise head to a DEX and swap SHI there.{" "}
             <span className={styles.pink}>{contractMetadata?.name}</span>
           </p>
         </>
