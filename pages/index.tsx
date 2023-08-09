@@ -15,6 +15,7 @@ import { useMemo, useState } from "react";
 import styles from "../styles/Home.module.css";
 import { parseIneligibility } from "../utils/parseIneligibility";
 import { TOKEN_DROP_ADDRESS } from "../const/yourDetails";
+import "@thirdweb-dev/contracts/base/ERC20Drop.sol";
 
 const startTime = new Date();
 const endTime = new Date(Date.now() + 60 * 60 * 24 * 20000);
