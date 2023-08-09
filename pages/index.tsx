@@ -16,7 +16,7 @@ import styles from "../styles/Home.module.css";
 import { parseIneligibility } from "../utils/parseIneligibility";
 
 const Home = () => {
-  const tokenAddress = "0x03728725240b021887355c943d040BF933F3d5F0";
+  const tokenAddress = "0x93107eD260c58d5d1c04398f23fC69FDa0D78Bc3";
   const { contract } = useContract(tokenAddress, "token-drop");
   const address = useAddress();
   const [quantity, setQuantity] = useState(1);
@@ -210,13 +210,13 @@ const Home = () => {
         activeClaimCondition.isError) ||
         (activeClaimCondition.data &&
           activeClaimCondition.data.startTime > new Date() && (
-            <p>Drop is starting soon. Please check back later.</p>
+            <p>Claims starting soon. Please check back later.</p>
           ))}
 
       {claimConditions.data?.length === 0 ||
         (claimConditions.data?.every((cc) => cc.maxClaimableSupply === "0") && (
           <p>
-            This drop is not ready to be minted yet. (No claim condition set)
+            This drop is not ready to be claimed yet. (No claim condition set)
           </p>
         ))}
 
@@ -236,7 +236,7 @@ const Home = () => {
 
           <h2 className={styles.title}>Claim Tokens</h2>
           <p className={styles.explain}>
-            Claim ERC20 tokens from{" "}
+            Claim your ShiBase tokens if Eligible!{" "}
             <span className={styles.pink}>{contractMetadata?.name}</span>
           </p>
         </>
@@ -247,7 +247,7 @@ const Home = () => {
       <div className={styles.claimGrid}>
         <input
           type="number"
-          placeholder="Enter amount to claim"
+          placeholder="Enter amount to claim!"
           onChange={(e) => {
             const value = parseInt(e.target.value);
             if (value > maxClaimable) {
