@@ -6,3 +6,13 @@
 Token Contract Address for $SHI: [0x93107eD260c58d5d1c04398f23fC69FDa0D78Bc3](https://basescan.org/address/0x93107eD260c58d5d1c04398f23fC69FDa0D78Bc3)
 
 Twitter: [ShiBase](https://twitter.com/ShiBaseL2)
+
+Toal token supply: `69,000,000,000`
+
+Token name: `ShiBase`
+
+Symbol: `SHI`
+
+Chain: `Base`
+
+Launch date: `August 9th, 2023.`
