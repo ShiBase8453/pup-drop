@@ -11,7 +11,7 @@
   justify-content: center;
   white-space: nowrap;
   vertical-align: middle;
-  outline: 2px solid transparent;
+  outline: 4px solid transparent;
   outline-offset: 2px;
   line-height: 1.2;
   font-weight: 600;
@@ -21,9 +21,9 @@
   height: 3rem;
   min-width: 3rem;
   font-size: 1rem;
-  background: #e5e5ea;
-  background-image: linear-gradient(to left, #cc25b3 0%, #418dff 101.52%);
-  color: #fff;
+  background: #2a5da9;
+  background-image: linear-gradient(to left, #71526c 0%, #418dff 101.52%);
+  color: #ffffff;
   width: 180px;
   text-align: center;
   border-radius: 9999px;
@@ -35,7 +35,7 @@
 }
 
 .pink {
-  color: #cc25b3;
+  color: #254fcc;
 }
 
 .title {
@@ -51,7 +51,7 @@
   cursor: pointer;
   text-align: center;
   padding: 5px;
-  color: #fff;
+  color: #1d3aa2;
   font-weight: 600;
 }
 
@@ -67,7 +67,7 @@
 
 .divider {
   width: 50%;
-  border-color: grey;
+  border-color: rgb(68, 185, 195);
   opacity: 0.25;
   margin-bottom: 2rem;
 }

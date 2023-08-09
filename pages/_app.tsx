@@ -10,7 +10,9 @@ const activeChain = "base";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <ThirdwebProvider activeChain={activeChain}>
+    <ThirdwebProvider 
+    clientId={process.env.NEXT_PUBLIC_TEMPLATE_CLIENT_ID}
+    activeChain={activeChain}>
       <Head>
         <title>ShiBase Token Airdrop</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
